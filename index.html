@@ -59,7 +59,7 @@
         </div>
     <div class="form-group col-6">
                 <label for="frequency-input">Frequency(min)</label>
-                <textarea class="form-control" id="frequency-input" type="text"></textarea>
+                <input class="form-control" id="frequency-input" type="number">
             </div>
         <button class="btn btn-default" id="add-train" type="submit">Submit</button>
     </form>
@@ -117,8 +117,10 @@ database.ref().on("child_added",function(snapshot){
     console.log(snapshot.val())
 })
 
-    var frequency = 8;
-    // var userStartTime = $('#userInputTextField').val().trim()
+
+    var frequency = $('.frequency').val.().trim();
+    
+    var userStartTime = $('.first').val().trim()
     startTime = moment('10:00', 'hh:mm')
     while (startTime.isBefore(moment(), 'minutes')) {
         startTime.add(frequency, 'minutes')
