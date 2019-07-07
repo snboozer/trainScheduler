@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+   
+
+   
+
+
+</head>
+
+<body>
+
+    <div class='jumbotron bg-primary text-center'>
+        <h1 class='title'>Anytime is Train Time</h1>
+        <p>Choo Choo Chee Chee</p>
+        </p>
+    </div>
+
+
+    <table class='table bg-info'>
+        <thead>
+            <tr>
+                <th scope=“col” id="train">Train Name</th>
+                <th scope=“col” id="destination">Destination</th>
+                <th scope=“col” id="frequency">Frequency (min)</th>
+                <th scope=“col” id="nextTrain">Next Arrival</th>
+                <th scope=“col” id="minutesAway">Minutes Away</th>
+            </tr>
+        </thead>
+        <tbody id="train-table">
+            
+            
+        </tbody>
+    </table>
+
+
+<div class="container bg-info">
+    <form role="form">
+        <div class="form-group col-6">
+            <label for="train-input">Train Name:</label>
+            <input class="form-control" id="train-input" type="text">
+        </div>
+    <div class="form-group col-6">
+            <label for="destination-input">Destination:</label>
+            <input class="form-control" id="destination-input" type="text">
+        </div>
+        <div class="form-group col-6">
+            <label for="time-input">First Time Train (HH:mm-military time)</label>
+            <input class="form-control" id="first-input" type="number">
+        </div>
+    <div class="form-group col-6">
+                <label for="frequency-input">Frequency(min)</label>
+                <textarea class="form-control" id="frequency-input" type="text"></textarea>
+            </div>
+        <button class="btn btn-default" id="add-train" type="submit">Submit</button>
+    </form>
+</div>
+<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#config-web-app -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyA-HFgxBW2GEfBHZ8aBjcRa16hcWVFDYok",
+    authDomain: "train-6bfc4.firebaseapp.com",
+    databaseURL: "https://train-6bfc4.firebaseio.com",
+    projectId: "train-6bfc4",
+    storageBucket: "train-6bfc4.appspot.com",
+    messagingSenderId: "259974830377",
+    appId: "1:259974830377:web:3e5052d406d514ae"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>
+ <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+ integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+ crossorigin="anonymous"></script>
+
+    <script>
+
+        var database = firebase.database();
+
+$("#add-train").click(function(event){
+    event.preventDefault()
+var newTrain= {
+    name:$("#train-input").val().trim(),
+    destination:$("#destination-input").val().trim(),
+    frequency:$("#frequency-input").val().trim(),
+    first:$("#first-input").val().trim(),
+}
+database.ref().push(newTrain)
+$("#train-input").val("")
+$("#destination-input").val("")
+$("#frequency-input").val("")
+$("#first-input").val("")
+// console.log(newTrain)
+})
+      
+database.ref().on("child_added",function(snapshot){
+    var dBTrain= $("<tr>")
+    dBTrain.append("<td>"+ snapshot.val().name+ "</td>")
+    dBTrain.append("<td>"+ snapshot.val().destination+ "</td>")
+    dBTrain.append("<td>"+ snapshot.val().frequency+ "</td>")
+    dBTrain.append("<td>"+ snapshot.val().first+ "</td>")
+    $("#train-table").append(dBTrain)
+    console.log(snapshot.val())
+})
+
+    </script>
+
+</body>
+
+</html>
+
+<!-- duckduckgo -->
